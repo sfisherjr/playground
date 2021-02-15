@@ -4,8 +4,12 @@
 1. Install vcpkg from https://github.com/microsoft/vcpkg
 2. Run ```vcpkg install sfml:x64-windows```
 3. Add the -DCMAKE_TOOLCHAIN_FILE CMake option
+4. Run CMake and Build
 
 It's recommended to use the Visual Studio toolchain with architecture set to amd64.
+#### Ubuntu
+1. Install sfml ```apt install sfml-dev```
+2. Run CMake and Build
 ### Map Files (.gmap)
 An example map file is included under the resources directory.
 
