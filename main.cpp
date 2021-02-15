@@ -58,6 +58,8 @@ int main()
                     window.setView(view);
                 }
             }
+
+            mapManager.update(event);
         }
 
         window.clear();

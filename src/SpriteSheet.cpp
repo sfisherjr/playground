@@ -59,9 +59,5 @@ void SpriteSheet::spriteTextureByIndex(sf::Sprite &sprite, int index) {
     rect.left = (index % itemsPerRow) * mTextureSize;
     rect.top = (index / itemsPerRow) * mTextureSize;
 
-    std::cout << index << ": " << rect.left << ", " << rect.top << std::endl;
-
-    std::cout << "Items per row = " << itemsPerRow << std::endl;
-
     sprite.setTextureRect(rect);
 }
