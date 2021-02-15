@@ -7,7 +7,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1024, 1024), "SFML Works!");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML Works!");
 
     SpriteSheet sheet(128);
     if (!sheet.loadTextureFromFile("tilesheet_complete_2X.png")) {
