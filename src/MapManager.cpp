@@ -2,7 +2,7 @@
 
 #include <utility>
 
-void MapManager::addSprite(float x, float y, int index) {
+void MapManager::addSprite(float x, float y, int index, bool isWallTile) {
     sf::Sprite curSprite = mSpriteSheet.getZeroSprite();
     curSprite.setPosition(x, y);
     mSpriteSheet.spriteTextureByIndex(curSprite, index);
@@ -14,19 +14,23 @@ void MapManager::addSprite(float x, float y, int index) {
     border.setSize(sf::Vector2f(textureSizeF - 5.0f, textureSizeF - 5.0f));
     border.setPosition(x + 5.0f, y + 5.0f);
     border.setFillColor(sf::Color::Transparent);
-    border.setOutlineColor(sf::Color::Magenta);
     border.setOutlineThickness(5.0f);
+
+    if (isWallTile) {
+        border.setOutlineColor(sf::Color::Red);
+    }
+    else {
+        border.setOutlineColor(sf::Color::Magenta);
+    }
+
     mSpriteBorderDefs.push_back(border);
 
     sf::Text text(std::to_string(index), mFont);
-    text.setCharacterSize(40);
+    text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
     text.setLetterSpacing(2);
 
-    float textXPos = (x + (textureSizeF / 2)) - (text.getLocalBounds().width / 2);
-    float textYPos = (y + (textureSizeF / 2)) - (text.getLocalBounds().height / 2);
-
-    text.setPosition(textXPos, textYPos);
+    text.setPosition(x + 25, y + 25);
     mSpriteTextDefs.push_back(text);
 }
 
@@ -47,8 +51,12 @@ bool MapManager::loadFromFile(const std::string &filePath) {
     std::string curVal;
     int copyVal = 0;
     int copyCount = 0;
+    bool isWallTile = false;
     while (fin >> std::noskipws >> ch) {
-        if (ch == '*') {
+        if (ch == '.') {
+            isWallTile = true;
+        }
+        else if (ch == '*') {
             copyVal = std::stoi(curVal);
             copyCount = -1;
             curVal = "";
@@ -57,7 +65,7 @@ bool MapManager::loadFromFile(const std::string &filePath) {
             if (copyCount == -1) {
                 copyCount = std::stoi(curVal);
                 while (copyCount > 0) {
-                    addSprite(xPos, yPos, copyVal);
+                    addSprite(xPos, yPos, copyVal, isWallTile);
                     xPos += textureSizeF;
 
                     copyCount--;
@@ -66,18 +74,19 @@ bool MapManager::loadFromFile(const std::string &filePath) {
                 copyVal = 0;
             }
             else {
-                addSprite(xPos, yPos, std::stoi(curVal));
+                addSprite(xPos, yPos, std::stoi(curVal), isWallTile);
             }
 
             yPos += textureSizeF;
             xPos = 0;
             curVal = "";
+            isWallTile = false;
         }
         else if (ch == ',') {
             if (copyCount == -1) {
                 copyCount = std::stoi(curVal);
                 while (copyCount > 0) {
-                    addSprite(xPos, yPos, copyVal);
+                    addSprite(xPos, yPos, copyVal, isWallTile);
                     xPos += textureSizeF;
 
                     copyCount--;
@@ -87,18 +96,19 @@ bool MapManager::loadFromFile(const std::string &filePath) {
                 curVal = "";
             }
             else {
-                addSprite(xPos, yPos, std::stoi(curVal));
-
+                addSprite(xPos, yPos, std::stoi(curVal), isWallTile);
                 xPos += textureSizeF;
-                curVal = "";
             }
+
+            curVal = "";
+            isWallTile = false;
         }
         else {
             curVal += ch;
         }
     }
 
-    addSprite(xPos, yPos, std::stoi(curVal));
+    addSprite(xPos, yPos, std::stoi(curVal), isWallTile);
 
     return true;
 }

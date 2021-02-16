@@ -23,7 +23,7 @@ private:
     std::vector<sf::RectangleShape> mSpriteBorderDefs;
     sf::Font mFont;
 
-    void addSprite(float x, float y, int index);
+    void addSprite(float x, float y, int index, bool isWallTile);
 };
 
 

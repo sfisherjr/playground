@@ -28,5 +28,12 @@ shows the result based on the example spritesheet.
 #### Tile Row Expansion
 Using ```TileIndex*n``` will cause the tile to be copied to the next ```n``` tiles.
 
-```111,186*8,112```  
-This will display the tile at index 186 8 times. 
+**Example**:  
+>```111,186*8,112```  
+>This will display the tile at index 186 8 times.
+#### Wall Tile Option
+Prefixing a tile index with a ```.``` will create a wall based tile.
+
+**Example**:
+>```.111,.186*8,.112```  
+>All the tiles in this row will be walls.
